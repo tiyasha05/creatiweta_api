@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: creatiweta-api
+    env: node
+    region: singapore
+    buildCommand: npm install
+    startCommand: npm start
+    plan: free
+    envVars:
+      - key: CLIENT_ORIGIN
+        value: https://creatiweta.com
+      - key: VERIPHONE_API_KEY
+        sync: false
+      - key: ABSTRACT_EMAIL_API_KEY
+        sync: false
+      - key: EMAIL_USER
+        sync: false
+      - key: EMAIL_PASS
+        sync: false
