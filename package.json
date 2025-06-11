@@ -8,7 +8,7 @@
     "dev:server": "nodemon",
     "build": "vite build",
     "preview": "vite preview",
-    "start": "ts-node server.ts"
+    "start": "ts-node-esm server.ts"
   },
   "dependencies": {
     "aos": "^2.3.4",
