@@ -15,6 +15,9 @@
     "jsx": "react-jsx",
     "types": ["react", "react-dom"]
   },
-  "ts-node": { "esm": true },
+  "ts-node": { 
+	"esm": true,
+	"experimentalSpecifierResolution": "node"
+	},
   "include": ["server.ts", "src/**/*", "App.tsx", "vite.config.ts"]
 }
