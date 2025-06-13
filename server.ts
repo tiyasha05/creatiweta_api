@@ -12,15 +12,30 @@ import { fileURLToPath } from "url";
 // ✅ Config
 dotenv.config();
 const app = express();
-const PORT = process.env.PORT || 5001; // changed from 5000 to 5001
-const CLIENT_ORIGIN = process.env.CLIENT_ORIGIN || "http://localhost:5174";
+const PORT = process.env.PORT || 10000; // changed from 5000 to 5001
+// const CLIENT_ORIGIN = process.env.CLIENT_ORIGIN || "http://localhost:5175";
+const allowedOrigins = [
+  "https://creatiweta.com",
+  "http://localhost:5175", // or whatever port Vite runs on
+];
 
 // ✅ __dirname workaround for ES Modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // ✅ Middleware
-app.use(cors({ origin: CLIENT_ORIGIN, credentials: true }));
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+  })
+);
 app.use(bodyParser.json());
 
 // ✅ Phone Validation Endpoint
@@ -58,6 +73,7 @@ app.post("/api/validate-email", async (req: Request, res: Response) => {
 app.post("/api/contact", async (req: Request, res: Response) => {
   const { name, email, phone, message } = req.body;
 
+  console.log("[/api/contact] Incoming request body:", req.body);
   if (!name || !email || !phone || !message) {
     res.status(400).json({ success: false, message: "All fields are required" });
     return;
